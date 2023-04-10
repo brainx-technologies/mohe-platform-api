@@ -52,7 +52,7 @@ class MeasurementViewSet(ModelViewSet):
         return result
 
     def get_queryset(self):
-        return Measurement.objects.filter(user=self.request.user).order_by('-id')
+        return Measurement.objects.filter(patient=self.request.user).order_by('-id')
 
     def get_serializer_class(self):
         if self.action in ('list', 'detail'):
@@ -66,12 +66,8 @@ class MeasurementViewSet(ModelViewSet):
 
         LOGGER.info("CREATE: " + json.dumps(serializer.initial_data, indent=4))
 
-        # check if user has upload team
-        if not user.team:
-            raise ValidationError({"team": ['Default upload team not set. Please contact your administrator.']})
-
         try:
-            obj = serializer.save(user=user, team=user.team)
+            obj = serializer.save(patient=user)
             obj.save()
         except Exception as e:
             raise ValidationError({'save': ['error saving object: "{0}"'.format(e)]})
