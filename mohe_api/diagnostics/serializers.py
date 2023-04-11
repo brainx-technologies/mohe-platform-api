@@ -12,4 +12,4 @@ class CategorySerializer(serializers.ModelSerializer):
 class BiomarkerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Biomarker
-        fields = ('id', 'name', 'acronym')
+        fields = ('id', 'name', 'acronym', 'category')
