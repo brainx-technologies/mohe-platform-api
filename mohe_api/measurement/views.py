@@ -19,12 +19,12 @@ class AssetViewset(ModelViewSet):
 
     def get_queryset(self):
         measurement_id = self.kwargs.get('measurement')
-        measurement = get_object_or_404(Measurement, pk=measurement_id, user=self.request.user)
+        measurement = get_object_or_404(Measurement, pk=measurement_id, patient=self.request.user)
         return Asset.objects.filter(measurement_id=measurement)
 
     def perform_create(self, serializer):
         measurement_id = self.kwargs.get('measurement')
-        measurement = get_object_or_404(Measurement, pk=measurement_id, user=self.request.user)
+        measurement = get_object_or_404(Measurement, pk=measurement_id, patient=self.request.user)
         serializer.save(measurement=measurement)
 
 

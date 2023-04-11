@@ -8,22 +8,29 @@ from mohe_api.facility import views as facility
 from mohe_api.kplex import views as kplex
 from mohe_api.measurement import views as measurement
 from mohe_api.parameter import views as parameter
+from mohe_api.hardware import views as hardware
 
 app_name = 'api'
 
 router = routers.DefaultRouter()
 
 # accounts
-router.register('user', accounts.UserViewSet, basename='user')
-router.register('facility', facility.FacilityViewSet, basename='facility')
+router.register('accounts/user', accounts.UserViewSet, basename='user')
+#router.register('facility', facility.FacilityViewSet, basename='facility')
 
 # diagnostics
-router.register('biomarker', diagnostics.BioMarkerViewSet, basename='biomarker')
+router.register('diagnostics/category', diagnostics.CategoryViewSet, basename='category')
+router.register('diagnostics/biomarker', diagnostics.BioMarkerViewSet, basename='biomarker')
 
 # kplex
-router.register('kplex', kplex.KplexViewSet, basename='kplex')
-router.register('batch', batch.BatchViewSet, basename='batch')
-router.register('parameter', parameter.ParameterViewSet, basename='parameter')
+router.register('kplex/kplex', kplex.KplexViewSet, basename='kplex')
+router.register('kplex/batch', batch.BatchViewSet, basename='batch')
+router.register('kplex/parameter', parameter.ParameterViewSet, basename='parameter')
+
+# hardware
+router.register('hardware/model', hardware.ModelViewSet, basename='model')
+router.register('hardware/device', hardware.DeviceViewSet, basename='device')
+router.register('hardware/firmware', hardware.FirmwareViewSet, basename='firmware')
 
 # measurements
 router.register('measurement/measurement', measurement.MeasurementViewSet, basename='measurement')
