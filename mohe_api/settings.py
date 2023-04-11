@@ -37,5 +37,12 @@ WSGI_APPLICATION = 'mohe_api.wsgi.application'
 AUTH_USER_MODEL = 'patient.Patient'
 
 CSRF_TRUSTED_ORIGINS = [
-    'http://admin.mohe.dev'
+    'http://admin.demo.mohe.ch'
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ]
+}
