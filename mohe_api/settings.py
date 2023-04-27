@@ -16,6 +16,7 @@ INSTALLED_APPS = [
 
     # mohe
     'mohe.client',
+    'mohe.demo',
     'mohe.diagnostics',
     'mohe.hardware',
     'mohe.kplex',
