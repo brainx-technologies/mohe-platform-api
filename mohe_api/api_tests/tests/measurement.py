@@ -1,5 +1,3 @@
-import json
-
 from django.test import Client
 
 from mohe.diagnostics.models import Category, Biomarker
@@ -8,17 +6,21 @@ from mohe.kplex.models import Kplex, Batch, Parameter
 from mohe_api.api_tests.tests.base import AuthenticatedApiTestCase
 
 
-class MeasurementApiTestCase(AuthenticatedApiTestCase):
+class MeasurementTestCase(AuthenticatedApiTestCase):
     def setUp(self):
-        super(MeasurementApiTestCase, self).setUp()
+        super(MeasurementTestCase, self).setUp()
+
+        # diagnostics
+        category = Category.objects.create(id=1, name='Drugs of abuse')
+        marker = Biomarker.objects.create(id=1, category=category, name='Cocaine', acronym='COC')
+
+        # kplex
         kplex = Kplex.objects.create(id=1, name='Drugs of abuse', acronym='DOA')
         batch = Batch.objects.create(id=1, kplex=kplex, barcode=1, batch_number=2, production_date='2017-11-01',
                                      expiry_date='2030-12-31')
-
-        category = Category.objects.create(id=1, name='Drugs of abuse')
-        marker = Biomarker.objects.create(id=1, category=category, name='Cocaine', acronym='COC')
         Parameter.objects.create(id=1, kplex=kplex, biomarker=marker, position=1)
 
+        # hardware
         model = Model.objects.create(id=1, name='MOHE 1')
         self.device = Device.objects.create(id=1, serial_number='SN1', hardware_key='DEVICE1', model=model)
 

@@ -3,7 +3,7 @@ from django.test import Client
 from mohe_api.api_tests.tests.base import AuthenticatedApiTestCase
 
 
-class ApiAuthTestCase(AuthenticatedApiTestCase):
+class AuthTestCase(AuthenticatedApiTestCase):
 
     def test_noauth(self):
         c = Client()
