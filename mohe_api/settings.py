@@ -13,6 +13,7 @@ INSTALLED_APPS = [
 
     # 3rd party
     'rest_framework',
+    'rest_framework.authtoken',
 
     # mohe
     'mohe.client',
@@ -27,8 +28,8 @@ INSTALLED_APPS = [
     'mohe.util',
     'mohe.alert',
     'mohe.ui',
-    'mohe.datalab',
 
+    'mohe_api.api_tests',
 ]
 
 ROOT_URLCONF = 'mohe_api.urls'
@@ -45,5 +46,6 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ]
 }

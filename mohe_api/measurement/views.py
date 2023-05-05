@@ -43,8 +43,6 @@ class MeasurementViewSet(ModelViewSet):
     def dispatch(self, request, *args, **kwargs):
         try:
             result = super(MeasurementViewSet, self).dispatch(request, *args, **kwargs)
-            if result.status_code not in (200, 201):
-                LOGGER.error("response: {} for {}".format(result.status_code, result.data))
         except Exception as e:
             LOGGER.exception("an error occured")
             raise e
@@ -63,8 +61,6 @@ class MeasurementViewSet(ModelViewSet):
 
     def perform_create(self, serializer):
         user = self.request.user
-
-        LOGGER.info("CREATE: " + json.dumps(serializer.initial_data, indent=4))
 
         try:
             obj = serializer.save(patient=user)
