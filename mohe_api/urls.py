@@ -1,44 +1,16 @@
 from django.urls import path, include
-from rest_framework import routers
-
-from mohe_api.accounts import views as accounts
-from mohe_api.batch import views as batch
-from mohe_api.diagnostics import views as diagnostics
-from mohe_api.facility import views as facility
-from mohe_api.kplex import views as kplex
-from mohe_api.measurement import views as measurement
-from mohe_api.parameter import views as parameter
-from mohe_api.hardware import views as hardware
-
-app_name = 'api'
-
-router = routers.DefaultRouter()
-
-# accounts
-router.register('accounts/user', accounts.UserViewSet, basename='user')
-#router.register('facility', facility.FacilityViewSet, basename='facility')
-
-# diagnostics
-router.register('diagnostics/category', diagnostics.CategoryViewSet, basename='category')
-router.register('diagnostics/biomarker', diagnostics.BioMarkerViewSet, basename='biomarker')
-
-# kplex
-router.register('kplex/kplex', kplex.KplexViewSet, basename='kplex')
-router.register('kplex/batch', batch.BatchViewSet, basename='batch')
-router.register('kplex/parameter', parameter.ParameterViewSet, basename='parameter')
-
-# hardware
-router.register('hardware/model', hardware.ModelViewSet, basename='model')
-router.register('hardware/device', hardware.DeviceViewSet, basename='device')
-router.register('hardware/firmware', hardware.FirmwareViewSet, basename='firmware')
-
-# measurements
-router.register('measurement/measurement', measurement.MeasurementViewSet, basename='measurement')
-router.register('measurement/field', measurement.MeasurementFieldViewSet, basename='measurementfield')
-router.register('measurement/asset', measurement.AssetViewset, basename='asset')
+from django.views.generic import TemplateView
+from rest_framework.schemas import get_schema_view
 
 urlpatterns = [
+    path('', include('mohe_api.api_urls')),
     path('auth/', include('rest_framework.urls', namespace='rest_framework')),
-]
 
-urlpatterns += router.urls
+    path('openapi/', get_schema_view(title='MOHE API', version='0.1', urlconf='mohe_api.api_urls'), name='openapi-schema'),
+
+    path('swagger-ui/', TemplateView.as_view(
+        template_name='swagger-ui.html',
+        extra_context={'schema_url': 'openapi-schema'}
+    ), name='swagger-ui'),
+
+]
