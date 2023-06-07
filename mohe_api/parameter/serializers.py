@@ -6,4 +6,4 @@ from mohe.kplex.models import Parameter
 class ParameterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Parameter
-        fields = ('id', 'biomarker', 'position', 'kplex')
+        fields = ('id', 'biomarker', 'position', 'kplex', 'group')
