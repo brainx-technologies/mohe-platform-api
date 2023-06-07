@@ -6,4 +6,4 @@ from mohe.kplex.models import Kplex
 class KplexSerializer(serializers.ModelSerializer):
     class Meta:
         model = Kplex
-        fields = ('id', 'name', 'acronym')
+        fields = ('id', 'name', 'acronym', 'status')
