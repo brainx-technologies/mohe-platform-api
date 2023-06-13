@@ -22,7 +22,7 @@ class MeasurementSerializer(serializers.ModelSerializer):
 class WriteMeasurementSerializer(serializers.ModelSerializer):
     class Meta:
         model = Measurement
-        fields = ('id', 'reference', 'title', 'comment', 'age', 'gender', 'extra_fields', 'measurement_date', 'sync_date', 'raw_data', 'result',
+        fields = ('id', 'title', 'comment', 'age', 'gender', 'extra_fields', 'measurement_date', 'sync_date', 'raw_data', 'result',
                   'lat', 'lng', 'device', 'device_timestamp', 'device_voltage', 'device_firmware_version',
                   'kplex', 'batch', 'app_platform', 'app_os_version', 'app_build_number')
 
