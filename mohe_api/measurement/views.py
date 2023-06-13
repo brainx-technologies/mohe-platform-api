@@ -2,9 +2,11 @@ import json
 import logging
 
 from django.shortcuts import get_object_or_404
+from rest_framework import status
 from rest_framework.exceptions import ValidationError
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 
 from mohe.measurement.models import Measurement, Asset, MeasurementField
@@ -48,6 +50,17 @@ class MeasurementViewSet(ModelViewSet):
             raise e
 
         return result
+
+    def create(self, request, *args, **kwargs):
+        # TODO: remove (HACK for logging)
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=False)
+        print(serializer.errors)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
 
     def get_queryset(self):
         return Measurement.objects.filter(patient=self.request.user).order_by('-id')
