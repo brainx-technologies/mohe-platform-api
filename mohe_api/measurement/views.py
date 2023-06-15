@@ -1,4 +1,3 @@
-import json
 import logging
 
 from django.shortcuts import get_object_or_404
@@ -43,6 +42,7 @@ class MeasurementViewSet(ModelViewSet):
         super(MeasurementViewSet, self).initial(request, *args, **kwargs)
 
     def dispatch(self, request, *args, **kwargs):
+        # TODO: generally log error response bodies, remove this method
         try:
             result = super(MeasurementViewSet, self).dispatch(request, *args, **kwargs)
         except Exception as e:
@@ -63,7 +63,7 @@ class MeasurementViewSet(ModelViewSet):
 
 
     def get_queryset(self):
-        return Measurement.objects.filter(patient=self.request.user).order_by('-id')
+        return Measurement.objects.filter(user=self.request.user).order_by('-id')
 
     def get_serializer_class(self):
         if self.action in ('list', 'detail'):
@@ -76,7 +76,7 @@ class MeasurementViewSet(ModelViewSet):
         user = self.request.user
 
         try:
-            obj = serializer.save(patient=user)
+            obj = serializer.save(user=user)
             obj.save()
         except Exception as e:
             raise ValidationError({'save': ['error saving object: "{0}"'.format(e)]})

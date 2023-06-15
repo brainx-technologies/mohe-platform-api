@@ -36,8 +36,6 @@ ROOT_URLCONF = 'mohe_api.urls'
 
 WSGI_APPLICATION = 'mohe_api.wsgi.application'
 
-AUTH_USER_MODEL = 'patient.Patient'
-
 CSRF_TRUSTED_ORIGINS = [
     'http://admin.demo.mohe.ch'
 ]

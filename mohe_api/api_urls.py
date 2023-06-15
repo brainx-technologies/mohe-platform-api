@@ -7,12 +7,13 @@ from mohe_api.hardware import views as hardware
 from mohe_api.kplex import views as kplex
 from mohe_api.measurement import views as measurement
 from mohe_api.parameter import views as parameter
+from mohe_api.patient import views as patient
 
 router = routers.DefaultRouter()
 
 # accounts
 router.register('accounts/user', accounts.UserViewSet, basename='user')
-# router.register('facility', facility.FacilityViewSet, basename='facility')
+router.register('accounts/registration', accounts.RegistrationViewSet, basename='registration')
 
 # diagnostics
 router.register('diagnostics/category', diagnostics.CategoryViewSet, basename='category')
@@ -32,5 +33,8 @@ router.register('hardware/firmware', hardware.FirmwareViewSet, basename='firmwar
 router.register('measurement/measurement', measurement.MeasurementViewSet, basename='measurement')
 router.register('measurement/field', measurement.MeasurementFieldViewSet, basename='measurementfield')
 router.register('measurement/asset', measurement.AssetViewset, basename='asset')
+
+# patients
+router.register('patient', patient.PatientViewSet, basename='patient')
 
 urlpatterns = router.urls

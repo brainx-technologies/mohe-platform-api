@@ -12,19 +12,22 @@ class AssetSerializer(serializers.ModelSerializer):
 class MeasurementSerializer(serializers.ModelSerializer):
     class Meta:
         model = Measurement
-        fields = (
-            'id', 'reference', 'title', 'comment', 'age', 'gender', 'extra_fields', 'measurement_date', 'sync_date',
-            'raw_data', 'result', 'status', 'lat', 'lng', 'team',
-            'device', 'device_timestamp', 'device_voltage', 'device_firmware_version',
-            'kplex', 'batch', 'assets')
+        fields = ('id', 'reference', 'title', 'comment', 'age', 'gender', 'extra_fields',
+                  'measurement_date', 'sync_date',
+                  'raw_data', 'result', 'kplex', 'batch', 'status', 'lat', 'lng', 'team',
+                  'device', 'device_timestamp', 'device_voltage', 'device_firmware_version',
+                  'assets')
 
 
 class WriteMeasurementSerializer(serializers.ModelSerializer):
     class Meta:
         model = Measurement
-        fields = ('id', 'title', 'comment', 'age', 'gender', 'extra_fields', 'measurement_date', 'sync_date', 'raw_data', 'result',
-                  'lat', 'lng', 'device', 'device_timestamp', 'device_voltage', 'device_firmware_version',
-                  'kplex', 'batch', 'app_platform', 'app_os_version', 'app_build_number')
+        fields = (
+            'id', 'title', 'comment', 'age', 'gender', 'extra_fields', 'measurement_date', 'sync_date',
+            'raw_data', 'result', 'kplex', 'batch',
+            'lat', 'lng',
+            'device', 'device_timestamp', 'device_voltage', 'device_firmware_version',
+            'app_platform', 'app_os_version', 'app_build_number')
 
 
 class UpdateMeasurementSerializer(serializers.ModelSerializer):
