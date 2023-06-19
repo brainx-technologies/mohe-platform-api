@@ -2,7 +2,10 @@ from mohe.settings.base import *
 
 PROJECT_DIR = Path(__file__).resolve().parent
 
-print("p", PROJECT_DIR)
+ALLOWED_HOSTS = [
+    'api.' + config.get('MOHE', 'DOMAIN')
+]
+
 # Application definition
 
 INSTALLED_APPS = [
