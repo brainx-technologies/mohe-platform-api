@@ -1,5 +1,8 @@
 from mohe.settings.base import *
 
+PROJECT_DIR = Path(__file__).resolve().parent
+
+print("p", PROJECT_DIR)
 # Application definition
 
 INSTALLED_APPS = [
@@ -47,3 +50,22 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ]
 }
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            PROJECT_DIR / 'templates'
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+                'mohe.ui.context_processors.django_settings',
+            ],
+        },
+    },
+]

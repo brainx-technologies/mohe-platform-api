@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
 from mohe.client.models import User
-from mohe_api.accounts.serializers import UserSerializer, PasswordSerializer
+from mohe_api.accounts.serializers import UserSerializer, PasswordSerializer, RegistrationSerializer
 
 
 class UserViewSet(mixins.RetrieveModelMixin,
@@ -58,7 +58,8 @@ class UserViewSet(mixins.RetrieveModelMixin,
 
 
 class RegistrationViewSet(mixins.CreateModelMixin, GenericViewSet):
-    serializer_class = UserSerializer
+    serializer_class = RegistrationSerializer
 
     def get_queryset(self):
         return User.objects.none()
+

@@ -1,0 +1,11 @@
+Hello,
+
+your email has been used to register at {{ domain }}.
+
+To confirm your email address and complete this registration please follow this link:
+
+https://app.{{ domain }}/register/confirm/{{ uid }}/{{ token }}/
+
+This link is valid for 48 hours.
+
+If you did not register at {{ domain }} you can safely ignore this message.
