@@ -3,7 +3,8 @@ from mohe.settings.base import *
 PROJECT_DIR = Path(__file__).resolve().parent
 
 ALLOWED_HOSTS = [
-    'api.' + config.get('MOHE', 'DOMAIN')
+    'api.' + config.get('MOHE', 'DOMAIN'),
+    'localhost',
 ]
 
 # Application definition

@@ -14,7 +14,7 @@ class MeasurementSerializer(serializers.ModelSerializer):
         model = Measurement
         fields = ('id', 'reference', 'title', 'comment', 'age', 'gender', 'extra_fields',
                   'measurement_date', 'sync_date',
-                  'raw_data', 'result', 'kplex', 'batch', 'status', 'lat', 'lng'
+                  'raw_data', 'result', 'kplex', 'batch', 'status', 'lat', 'lng',
                   'device', 'device_timestamp', 'device_voltage', 'device_firmware_version',
                   'assets')
 
