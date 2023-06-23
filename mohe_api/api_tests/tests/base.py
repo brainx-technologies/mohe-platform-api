@@ -3,7 +3,7 @@ import base64
 from django.test import TestCase
 from rest_framework.authtoken.models import Token
 
-from mohe.patient.models import Patient
+from mohe.client.models import User
 
 
 class AuthenticatedApiTestCase(TestCase):
@@ -12,14 +12,14 @@ class AuthenticatedApiTestCase(TestCase):
         self.email = 'test@mondialab.org'
         self.password = 'test password'
 
-        patient, created = Patient.objects.get_or_create(id=1, defaults=dict(
+        user, created = User.objects.get_or_create(id=1, defaults=dict(
             email=self.email, is_active=True
         ))
         if created:
-            patient.set_password(self.password)
-            patient.save()
+            user.set_password(self.password)
+            user.save()
 
-        self.token, _ = Token.objects.get_or_create(user=patient)
+        self.token, _ = Token.objects.get_or_create(user=user)
         self.token.save()
 
     def get_token_auth_headers(self):

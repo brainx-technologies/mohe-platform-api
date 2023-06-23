@@ -26,7 +26,10 @@ class UserViewSet(mixins.RetrieveModelMixin,
 
     def get_object(self):
         # make sure the correct pk is used
-        if self.request.user.pk != int(self.kwargs['pk']):
+        if 'pk' in self.kwargs:
+            if self.request.user.pk != int(self.kwargs.get('pk')):
+                raise Http404()
+        else:
             raise Http404()
         return self.request.user
 
@@ -40,7 +43,7 @@ class UserViewSet(mixins.RetrieveModelMixin,
         """
         Returns the user which is logged in.
         """
-        user = self.get_object()
+        user = self.get_queryset().first()
         serializer = self.get_serializer(user, many=False)
         return Response(serializer.data)
 
@@ -68,3 +71,4 @@ class RegistrationViewSet(mixins.CreateModelMixin, GenericViewSet):
 
     def get_queryset(self):
         return User.objects.none()
+
