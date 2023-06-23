@@ -54,15 +54,9 @@ class UserViewSet(mixins.RetrieveModelMixin,
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             serializer.update()
-            response = {
-                'status': 'success',
-                'code': status.HTTP_200_OK,
-                'message': 'Password updated successfully',
-                'data': []
-            }
+            return Response({})
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 
 class RegistrationViewSet(mixins.CreateModelMixin, GenericViewSet):
