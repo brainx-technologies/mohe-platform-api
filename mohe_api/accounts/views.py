@@ -1,7 +1,9 @@
+from django.http import Http404
 from rest_framework import mixins, status
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.viewsets import GenericViewSet
 
 from mohe.client.models import User
@@ -14,7 +16,7 @@ class UserViewSet(mixins.RetrieveModelMixin,
                   mixins.ListModelMixin,
                   GenericViewSet):
     """
-    This endpoint returns the user profile for the authenticated user.
+    API to manage user accounts.
     """
     permission_classes = (IsAuthenticated,)
     serializer_class = UserSerializer
@@ -23,20 +25,29 @@ class UserViewSet(mixins.RetrieveModelMixin,
         return User.objects.filter(pk=self.request.user.pk)
 
     def get_object(self):
-        return self.request.user
-
-    def list(self, request, *args, **kwargs):
-        user = self.get_object()
-        serializer = self.get_serializer(user, many=False)
-        return Response(serializer.data)
+        user = self.get_queryset().filter(pk=self.kwargs['pk']).first()
+        if user is None:
+            raise Http404()
+        return user
 
     def get_serializer_class(self):
         if self.action == 'password':
             return PasswordSerializer
         return UserSerializer
 
+    def list(self, request, *args, **kwargs):
+        """
+        Returns the user which is logged in.
+        """
+        user = self.get_object()
+        serializer = self.get_serializer(user, many=False)
+        return Response(serializer.data)
+
     @action(detail=True, methods=['put', 'post', 'get'], name='Change Password')
     def password(self, request, pk=None):
+        """
+        Change the user password.
+        """
         self.object = self.get_object()
 
         response = {}
@@ -58,8 +69,11 @@ class UserViewSet(mixins.RetrieveModelMixin,
 
 
 class RegistrationViewSet(mixins.CreateModelMixin, GenericViewSet):
+    """
+    API to register new users. After submit a verification email will be send to create a password and activate the account.
+    """
+
     serializer_class = RegistrationSerializer
 
     def get_queryset(self):
         return User.objects.none()
-
