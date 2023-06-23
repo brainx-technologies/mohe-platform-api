@@ -3,7 +3,6 @@ from rest_framework import mixins, status
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.viewsets import GenericViewSet
 
 from mohe.client.models import User
@@ -16,21 +15,23 @@ class UserViewSet(mixins.RetrieveModelMixin,
                   mixins.ListModelMixin,
                   GenericViewSet):
     """
-    API to manage user accounts.
+    API to manage the authenticated user.
     """
     permission_classes = (IsAuthenticated,)
     serializer_class = UserSerializer
 
     def get_queryset(self):
+        # the api only allows access to the authenticated user
         return User.objects.filter(pk=self.request.user.pk)
 
     def get_object(self):
-        user = self.get_queryset().filter(pk=self.kwargs['pk']).first()
-        if user is None:
+        # make sure the correct pk is used
+        if self.request.user.pk != int(self.kwargs['pk']):
             raise Http404()
-        return user
+        return self.request.user
 
     def get_serializer_class(self):
+        # password action has its own serializer
         if self.action == 'password':
             return PasswordSerializer
         return UserSerializer
@@ -43,29 +44,25 @@ class UserViewSet(mixins.RetrieveModelMixin,
         serializer = self.get_serializer(user, many=False)
         return Response(serializer.data)
 
-    @action(detail=True, methods=['put', 'post', 'get'], name='Change Password')
+    @action(detail=True, methods=['post'], name='Change Password')
     def password(self, request, pk=None):
         """
         Change the user password.
         """
         self.object = self.get_object()
 
-        response = {}
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            serializer.update()
+            response = {
+                'status': 'success',
+                'code': status.HTTP_200_OK,
+                'message': 'Password updated successfully',
+                'data': []
+            }
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        if self.request.method in ('POST', 'PUT'):
-            serializer = self.get_serializer(data=request.data)
-            if serializer.is_valid():
-                serializer.update()
-                response = {
-                    'status': 'success',
-                    'code': status.HTTP_200_OK,
-                    'message': 'Password updated successfully',
-                    'data': []
-                }
-            else:
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        return Response(response)
 
 
 class RegistrationViewSet(mixins.CreateModelMixin, GenericViewSet):
