@@ -31,7 +31,6 @@ router.register('hardware/firmware', hardware.FirmwareViewSet, basename='firmwar
 
 # measurements
 router.register('measurement/measurement', measurement.MeasurementViewSet, basename='measurement')
-router.register('measurement/field', measurement.MeasurementFieldViewSet, basename='measurementfield')
 router.register('measurement/asset', measurement.AssetViewset, basename='asset')
 
 # patients
