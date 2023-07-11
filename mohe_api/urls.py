@@ -4,7 +4,7 @@ from rest_framework.schemas import get_schema_view
 
 urlpatterns = [
     path('', include('mohe_api.api_urls')),
-    path('auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
     path('openapi/', get_schema_view(title='MOHE API', version='0.1', urlconf='mohe_api.api_urls'), name='openapi-schema'),
 

@@ -15,7 +15,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('id', 'first_name', 'last_name', 'email', 'birthday', 'sex', 'mode', 'organisation_name')
 
 
-class PasswordSerializer(serializers.Serializer):
+class ChangePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField()
     new_password = serializers.CharField()
     confirm_password = serializers.CharField()
@@ -41,6 +41,10 @@ class PasswordSerializer(serializers.Serializer):
         user.set_password(self.validated_data['new_password'])
         user.save()
         return user
+
+
+class ForgotPasswordSerializer(serializers.Serializer):
+    email = serializers.EmailField()
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
